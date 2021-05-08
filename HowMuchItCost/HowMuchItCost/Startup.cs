@@ -29,7 +29,12 @@ namespace HowMuchItCost
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "HowMuchItCost", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "HowMuchItCost",
+                    Description = "A simple API to query currency prices",
+                    Version = "v1"
+                });
             });
 
             services.AddMvc(options =>

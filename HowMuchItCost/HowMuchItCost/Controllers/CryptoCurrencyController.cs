@@ -1,9 +1,13 @@
 ﻿using HowMuchItCost.Library.Enumerador;
 using HowMuchItCost.Library.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HowMuchItCost.API.Controllers
 {
+    /// <summary>
+    /// Query cryptocurrency prices
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class CryptoCurrencyController : BaseController
@@ -15,7 +19,14 @@ namespace HowMuchItCost.API.Controllers
             _currencyService = currencyService;
         }
 
+        /// <summary>
+        /// Get Dogecoin price in BRL
+        /// </summary>
+        /// <returns>BRL price</returns>
         [HttpGet("Doge")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult Doge() =>
             Ok(_currencyService.GetBRLPrice(ECurrency.Dogecoin));
     }
