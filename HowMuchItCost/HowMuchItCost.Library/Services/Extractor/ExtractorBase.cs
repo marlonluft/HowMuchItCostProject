@@ -2,6 +2,7 @@
 using HowMuchItCost.Library.Interfaces;
 using HtmlAgilityPack;
 using System;
+using System.Globalization;
 
 namespace HowMuchItCost.Library.Services.Extractor
 {
@@ -9,12 +10,13 @@ namespace HowMuchItCost.Library.Services.Extractor
     {
         public abstract string CurrencyUrl { get; }
         public abstract string CurrencyXPath { get; }
+        public virtual CultureInfo CurrencyCulture => CultureInfo.GetCultureInfo("pt-BR");
 
         public decimal ExtractPrice()
         {
             var value = ExtractValue();
 
-            if (!decimal.TryParse(value, out decimal result))
+            if (!decimal.TryParse(value, NumberStyles.Any, CurrencyCulture, out decimal result))
             {
                 throw new ExtractException("Failed to extract value");
             }
