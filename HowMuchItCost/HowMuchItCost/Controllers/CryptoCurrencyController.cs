@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HowMuchItCost.Library.Enumerador;
+using HowMuchItCost.Library.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HowMuchItCost.API.Controllers
 {
@@ -6,12 +8,15 @@ namespace HowMuchItCost.API.Controllers
     [Route("[controller]")]
     public class CryptoCurrencyController : BaseController
     {
-        [HttpGet("Doge")]
-        public IActionResult Doge()
-        {
-            decimal value = 20.59m;
+        private readonly ICurrencyService _currencyService;
 
-            return Ok(value);
+        public CryptoCurrencyController(ICurrencyService currencyService)
+        {
+            _currencyService = currencyService;
         }
+
+        [HttpGet("Doge")]
+        public IActionResult Doge() =>
+            Ok(_currencyService.GetBRLPrice(ECurrency.Dogecoin));
     }
 }
