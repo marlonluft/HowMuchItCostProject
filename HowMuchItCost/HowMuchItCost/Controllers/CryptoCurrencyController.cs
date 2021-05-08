@@ -10,6 +10,7 @@ namespace HowMuchItCost.API.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
+    [ResponseCache(CacheProfileName = "Default")]
     public class CryptoCurrencyController : BaseController
     {
         private readonly ICurrencyService _currencyService;

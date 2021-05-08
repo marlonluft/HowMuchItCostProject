@@ -4,10 +4,12 @@ using HowMuchItCost.Library.Services;
 using HowMuchItCost.Library.Services.Extractor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace HowMuchItCost
 {
@@ -40,6 +42,13 @@ namespace HowMuchItCost
             services.AddMvc(options =>
             {
                 options.Filters.Add(new ApiExceptionFilter());
+
+                options.CacheProfiles.Add("Default", new CacheProfile()
+                {
+                    Duration = (int)TimeSpan.FromMinutes(5).TotalSeconds,
+                    Location = ResponseCacheLocation.Any,
+                    NoStore = false
+                });
             });
         }
 
