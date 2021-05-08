@@ -4,14 +4,12 @@ using HowMuchItCost.Library.Services;
 using HowMuchItCost.Library.Services.Extractor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Globalization;
 
 namespace HowMuchItCost
 {
@@ -30,7 +28,6 @@ namespace HowMuchItCost
             services.AddScoped<ICurrencyService, CurrencyService>();
             services.AddScoped<DogeService>();
 
-            services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -47,7 +44,7 @@ namespace HowMuchItCost
                 options.InstanceName = "HowMuchItCostDatabase";
             });
 
-            services.AddMvc(options =>
+            services.AddControllers(options =>
             {
                 options.Filters.Add(new ApiExceptionFilter());
 
@@ -76,14 +73,6 @@ namespace HowMuchItCost
             app.UseRouting();
 
             app.UseAuthorization();
-
-            var supportedCultures = new[] { new CultureInfo("en-US") };
-            app.UseRequestLocalization(new RequestLocalizationOptions
-            {
-                DefaultRequestCulture = new RequestCulture(culture: "en-US", uiCulture: "en-US"),
-                SupportedCultures = supportedCultures,
-                SupportedUICultures = supportedCultures
-            });
 
             app.UseEndpoints(endpoints =>
             {
