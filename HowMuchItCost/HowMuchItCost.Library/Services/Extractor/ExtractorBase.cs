@@ -1,4 +1,5 @@
-﻿using HowMuchItCost.Library.Interfaces;
+﻿using HowMuchItCost.Library.CustomException;
+using HowMuchItCost.Library.Interfaces;
 using HtmlAgilityPack;
 using System;
 
@@ -15,7 +16,7 @@ namespace HowMuchItCost.Library.Services.Extractor
 
             if (!decimal.TryParse(value, out decimal result))
             {
-                throw new Exception("Failed to extract value");
+                throw new ExtractException("Failed to extract value");
             }
 
             return result;
@@ -33,7 +34,7 @@ namespace HowMuchItCost.Library.Services.Extractor
                 return value;
             }
 
-            throw new Exception("Currency page has been redirected");
+            throw new ExtractException("Currency page has been redirected");
         }
 
         private static string GetNodeValue(HtmlDocument Document, string xpath)
