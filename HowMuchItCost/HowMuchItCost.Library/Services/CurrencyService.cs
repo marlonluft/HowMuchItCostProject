@@ -1,6 +1,7 @@
 ﻿using HowMuchItCost.Library.Enumerador;
 using HowMuchItCost.Library.Interfaces;
 using HowMuchItCost.Library.Services.Extractor;
+using Microsoft.Extensions.Caching.Distributed;
 using System;
 
 namespace HowMuchItCost.Library.Services
@@ -8,21 +9,31 @@ namespace HowMuchItCost.Library.Services
     public class CurrencyService : ICurrencyService
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly IDistributedCache _distributedCache;
 
-        public CurrencyService(IServiceProvider serviceProvider)
+        public CurrencyService(IServiceProvider serviceProvider, IDistributedCache distributedCache)
         {
             _serviceProvider = serviceProvider;
+            _distributedCache = distributedCache;
         }
 
         public decimal GetBRLPrice(ECurrency currency)
         {
-            IExtractorService extractor = currency switch
-            {
-                ECurrency.Dogecoin => (IExtractorService)_serviceProvider.GetService(typeof(DogeService)),
-                _ => throw new InvalidOperationException(),
-            };
+            var key = currency.ToString();
 
-            return extractor.ExtractPrice();
+            if (!decimal.TryParse(_distributedCache.GetString(key), out decimal price))
+            {
+                IExtractorService extractor = currency switch
+                {
+                    ECurrency.Dogecoin => (IExtractorService)_serviceProvider.GetService(typeof(DogeService)),
+                    _ => throw new InvalidOperationException(),
+                };
+
+                price = extractor.ExtractPrice();
+                _distributedCache.SetString(key, price.ToString());
+            }
+
+            return price;
         }
     }
 }

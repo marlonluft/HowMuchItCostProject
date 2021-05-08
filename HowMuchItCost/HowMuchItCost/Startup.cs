@@ -39,6 +39,12 @@ namespace HowMuchItCost
                 });
             });
 
+            services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration = Configuration.GetConnectionString("RedisConnection");
+                options.InstanceName = "HowMuchItCostDatabase";
+            });
+
             services.AddMvc(options =>
             {
                 options.Filters.Add(new ApiExceptionFilter());
