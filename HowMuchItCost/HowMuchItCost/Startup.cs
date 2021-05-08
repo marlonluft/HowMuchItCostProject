@@ -1,3 +1,4 @@
+using HowMuchItCost.API.Filters;
 using HowMuchItCost.Library.Interfaces;
 using HowMuchItCost.Library.Services;
 using HowMuchItCost.Library.Services.Extractor;
@@ -29,6 +30,11 @@ namespace HowMuchItCost
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HowMuchItCost", Version = "v1" });
+            });
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new ApiExceptionFilter());
             });
         }
 
