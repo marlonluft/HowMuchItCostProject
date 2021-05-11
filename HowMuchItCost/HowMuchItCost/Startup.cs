@@ -44,13 +44,19 @@ namespace HowMuchItCost
                 options.InstanceName = "HowMuchItCostDatabase";
             });
 
+            int cacheDuration = 5;
+
+#if DEBUG
+            cacheDuration = 0;
+#endif
+
             services.AddControllers(options =>
             {
                 options.Filters.Add(new ApiExceptionFilter());
 
                 options.CacheProfiles.Add("Default", new CacheProfile()
                 {
-                    Duration = (int)TimeSpan.FromMinutes(5).TotalSeconds,
+                    Duration = (int)TimeSpan.FromMinutes(cacheDuration).TotalSeconds,
                     Location = ResponseCacheLocation.Any,
                     NoStore = false
                 });
