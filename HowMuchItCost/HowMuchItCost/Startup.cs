@@ -10,6 +10,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace HowMuchItCost
 {
@@ -25,6 +27,13 @@ namespace HowMuchItCost
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en-US");
+                options.SupportedCultures = new List<CultureInfo> { new CultureInfo("en-US") };
+                options.RequestCultureProviders.Clear();
+            });
+
             services.AddScoped<ICurrencyService, CurrencyService>();
             services.AddScoped<DogeService>();
 
@@ -70,6 +79,8 @@ namespace HowMuchItCost
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseRequestLocalization();
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HowMuchItCost v1"));
