@@ -25,11 +25,11 @@ namespace HowMuchItCost.API.Controllers
         /// Get Dogecoin price in BRL
         /// </summary>
         /// <returns>BRL price</returns>
-        [HttpGet("Doge")]
+        [HttpGet("Dogecoin")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DefaultViewModel<decimal>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public IActionResult Doge() =>
+        public IActionResult Dogecoin() =>
             Ok(GetResult(_currencyService.GetBRLPrice(ECurrency.Dogecoin)));
     }
 }
