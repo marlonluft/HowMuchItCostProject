@@ -2,6 +2,7 @@
 {
     public enum ECurrency
     {
-        Dogecoin
+        Dogecoin,
+        Bitcoin
     }
 }

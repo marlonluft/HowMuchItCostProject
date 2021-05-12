@@ -26,6 +26,7 @@ namespace HowMuchItCost.Library.Services
                 IExtractorService extractor = currency switch
                 {
                     ECurrency.Dogecoin => (IExtractorService)_serviceProvider.GetService(typeof(DogeService)),
+                    ECurrency.Bitcoin => (IExtractorService)_serviceProvider.GetService(typeof(BitcoinService)),
                     _ => throw new InvalidOperationException(),
                 };
 

@@ -31,5 +31,16 @@ namespace HowMuchItCost.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult Dogecoin() =>
             Ok(GetResult(_currencyService.GetBRLPrice(ECurrency.Dogecoin)));
+
+        /// <summary>
+        /// Get Bitcoin price in BRL
+        /// </summary>
+        /// <returns>BRL price</returns>
+        [HttpGet("Bitcoin")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(DefaultViewModel<decimal>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public IActionResult Bitcoin() =>
+            Ok(GetResult(_currencyService.GetBRLPrice(ECurrency.Bitcoin)));
     }
 }
