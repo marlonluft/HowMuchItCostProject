@@ -31,7 +31,10 @@ namespace HowMuchItCost.Library.Services
                 };
 
                 price = extractor.ExtractPrice();
-                _distributedCache.SetString(key, price.ToString());
+                _distributedCache.SetString(key, price.ToString(), new DistributedCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+                });
             }
 
             return price;
