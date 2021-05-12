@@ -35,7 +35,7 @@ namespace HowMuchItCost
             });
 
             services.AddScoped<ICurrencyService, CurrencyService>();
-            services.AddScoped<DogeService>();
+            services.AddScoped<DogecoinService>();
             services.AddScoped<BitcoinService>();
 
             services.AddSwaggerGen(c =>
